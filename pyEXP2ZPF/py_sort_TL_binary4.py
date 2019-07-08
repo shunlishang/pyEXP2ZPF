@@ -10,6 +10,8 @@ import copy
 #########################################
 stepT=50   # the temp step to select datapoint
 
+name_exp  = 'myExptTLINV_sorted.exp'
+file0_exp = 'new_exp_data.json'
 #########################################
 ## define some funcitons below
 ##
@@ -21,6 +23,7 @@ def dedup(seq):
         i = bisect_left(seen, x)
         if i == len(seen) or seen[i] != x:
             seen.insert(i, x)
+
             result.append(x)
     return result
 
@@ -107,7 +110,7 @@ current_directory_files = os.listdir('.')
 two_phases_0 = []
 block_0=[]
 name0='nTL+'
-name_exp='myExptTLINV.exp'
+name_exp1='myExptTLINV_' + str(stepT) + '.exp'
 tot_temp2=[]; tot_val2a=[]; tot_val2b=[]
 
 for fname in current_directory_files:
@@ -159,7 +162,7 @@ for ii in unique_two:
             mtemp.append(ntemp[i])
             mvalu.append(nvalu[i])
     print('Number of the selected temperatures = ', len(mtemp))
-    #print(mvalu, len(mvalu))
+    #print('HERE, mvalu=', mvalu, len(mvalu))
     condits = dict(P=101325, T=mtemp)
     TL_dict = dict(comment=text1, phases=phase_list, reference=text2, values=mvalu, components=all_elements, \
                    output='ZPF', broadcast_conditions='false', conditions=condits, weight=weightTL)
@@ -174,7 +177,7 @@ for ii in unique_two:
     tot_val2a.extend(asd1)
     tot_val2b.extend(asd2)
 ##
-## for INV case below ###################################
+## for INV case below to write thermo-calc EXP file ###################################
 with open('INV_Alls.json') as f:
     data_dict = json.load(f)
     temp3 = data_dict.get("conditions").get("T")
@@ -188,16 +191,16 @@ print()
 print('temp3=',  len(temp3), '    ', temp3)
 print('val3a=',  len(val3a), '    ', val3a)
 print()
-print('Len tot_temp2=',  len(tot_temp2))
-print('Len tot_val2a=',  len(tot_val2a))
-###########
-To_write_exp_file(name_exp, tot_temp2, tot_val2a, tot_val2b, temp3, val3a, val3b, val3c)
+print('Len old tot_temp2=',  len(tot_temp2))
+print('Len old tot_val2a=',  len(tot_val2a))
+#########
 
-###########
+To_write_exp_file(name_exp1, tot_temp2,  tot_val2a,  tot_val2b,  temp3, val3a, val3b, val3c)  ## current
 
-file0 = 'new_exp_data.json'
-if os.path.exists(file0):
-    with open(file0) as f:
+##########
+
+if os.path.exists(file0_exp):
+    with open(file0_exp) as f:
         data_dict = json.load(f)
         temp4 = data_dict.get("conditions").get("T")
         vvv   = data_dict.get("values")
@@ -227,6 +230,7 @@ if os.path.exists(file0):
 ###########
 print()
 print('========================================================')
+print('Updated on 2019-06-26: write EXP based on nTL+ data ')
 print('Updated on 2019-05-29 to write EXP file')
 print('Updated on 2019-05-20 for the bug of: ntemp[i]-mtemp[-1] ')
 ### THE END ##############

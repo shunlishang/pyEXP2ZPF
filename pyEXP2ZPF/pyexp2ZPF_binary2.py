@@ -3,15 +3,15 @@ import numpy as np
 import json
 ###################################################################################
 first_elem ='AL'          # can be upper or lower letters for elements, will adjust them to upper later
-second_elem='W'          # This element is x(elem) to plot phase diagram
-weightTL   = 5            # Weight of tie lines
-weightINV  = 10           # Weight of Inv equilibria
+second_elem='CO'          # This element is x(elem) to plot phase diagram
+weightTL   = 1            # Weight of tie lines
+weightINV  = 50           # Weight of Inv equilibria
 nTL_step   = 1            # for tie lines, the step: 1 for all; 2 half TL, 3 for 1/3 TL, ...
 
 my_file=open("tcexp.exp",'r')     # open Thermo-Calc EXP file: binary system
 
-text1 = 'Comment: from TDB file'
-text2 = 'Reference: from TDB'
+text1 = 'Comment from TDB'
+text2 = 'Reference from TDB'
 
 #---------------------------------------
 first_elem =first_elem.upper()
@@ -32,7 +32,14 @@ def find_TL_in_PLOT(blockTL_plot):
         if line == '': continue
         filtered_line = [val for val in line.split(' ') if val != '']
         Comp1.append(filtered_line[0])          # yields a list of composition
-        nComp1.append(float(filtered_line[0]))  # yields a list of composition, number
+        value1 = float(filtered_line[0])
+        if value1 < 1e-4:
+            print('find TL value < 1e-4 with its value = ', value1)
+            value1 = 1e-4
+        if value1 > 0.9999:
+            print('find TL value > 0.9999 with its value = ', value1)
+            value1 = 0.9999
+        nComp1.append(value1)  # yields a list of composition, number
         Temp2.append(filtered_line[1])          # yields a list of composition
         nTemp2.append(float(filtered_line[1]))  # yields a list of composition, number
     phase_start = blockTL_plot.find("(")
@@ -71,8 +78,14 @@ def find_phase_in_plot(line_value, whole_blockTL):
 
 def two_values_in_one_line(line_value):
     filtered_line = [val for val in line_value.split(' ') if val != '']
-    value1=float(filtered_line[0])  # yields the first value
-    value2=float(filtered_line[1])  # yields the second value
+    value1=float(filtered_line[0])  # yields the first value (for composition)
+    if value1 < 1e-4  :
+        print('find INV value < 1e-4 with its value = ', value1)
+        value1 = 1e-4
+    if value1 > 0.9999:
+        print('find INV value > 0.9999 with its value = ', value1)
+        value1 = 0.9999
+    value2=float(filtered_line[1])  # yields the second value (for Temp)
     dd=[value1, value2]
     return dd
 ##----------------
@@ -261,3 +274,7 @@ name2=['TL_ALLs_step',str(nTL_step),'.json']
 ALLname=''.join(name2)
 To_write_json_file(INV_TL, ALLname)
 
+##########
+print()
+print('========================================================')
+print('Updated on 2019-06-26: adjust TL/INV compositions close to 0 1')

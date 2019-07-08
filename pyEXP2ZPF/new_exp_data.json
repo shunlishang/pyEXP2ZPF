@@ -1,14 +1,14 @@
 {
   "comment": "Comment: from TDB file",
   "reference": "Reference: from TDB",
-  "weight": 1,
-  "phases": ["BCC_A2", "LIQUID"],
+  "weight": 50,
+  "phases": ["BCC_B2", "LIQUID"],
   "values": [   
-  [["BCC_A2", ["W"], [null]], ["LIQUID", ["W"], [0.60]]], 
-  [["BCC_A2", ["W"], [null]], ["LIQUID", ["W"], [0.80]]]   
+  [["BCC_B2", ["CO"], [null]], ["LIQUID", ["CO"], [0.333]]], 
+  [["BCC_B2", ["CO"], [null]], ["LIQUID", ["CO"], [0.300]]]   
   ],
   "components": ["AL", "W"],
   "output": "ZPF",
   "broadcast_conditions": false,
-  "conditions": {"P": 101325, "T": [3000.0, 3500.0]}
+  "conditions": {"P": 101325, "T": [1800.0, 1730.0]}
 }
