@@ -1,0 +1,41 @@
+
+
+go data 
+sw user ESPEI_opt_params.tdb 
+
+def-ele AL CO W
+
+get
+
+go p-3
+s-c n=1 p=1e5 
+s-c t=1373
+s-c x(CO)=0.2
+
+s-c x(W)=0.3
+
+c-e
+c-e
+
+s-a-v 1 x(CO) ,,,,
+s-a-v 2 x(W) ,,,,
+
+add ,,,,
+map
+
+po
+s-l f
+
+s-d-t
+y
+
+s-t-s
+1
+
+app y myExptTLINV_sorted.exp
+0
+1
+
+pl ,,,,
+
+set-inter

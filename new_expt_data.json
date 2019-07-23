@@ -1,0 +1,14 @@
+{
+  "comment": "Comt NIST AlCoW TDB file",
+  "reference": "Ref Peisheng Wang CALPHAD paper",
+  "weight": 1,
+  "phases": ["BCC_B2", "LIQUID"],
+  "values": [
+  [["BCC_B2", ["CO", "W"], [null, null]], ["LIQUID", ["CO", "W"], [0.22300, 0.114100]]], 
+  [["BCC_B2", ["CO", "W"], [null, null]], ["LIQUID", ["CO", "W"], [0.21956, 0.146375]]]
+  ],
+  "components": ["AL", "CO", "VA", "W"],
+  "output": "ZPF",
+  "broadcast_conditions": false,
+  "conditions": {"P": 101325, "T": [1373, 1373]}
+}
